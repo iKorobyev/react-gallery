@@ -1,0 +1,80 @@
+@import "libs/normalize";
+
+body {
+  background-color: #b3b3b3;
+}
+
+.gallery {
+  display: flex;
+  padding: 40px 0;
+
+  &__heading {
+    font-size: 30px;
+    margin-bottom: 40px;
+  }
+
+  &__button {
+    padding: 10px 15px;
+    margin-bottom: 25px;
+    border: 1px solid #000;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all .15s ease-in;
+
+    &:hover {
+      background-color: #ffc0c0;
+    }
+
+    &-active {
+      background-color: #ff0000;
+    }
+
+  }
+
+  &__container {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+  }
+
+  &__item {
+    width: 23%;
+    margin-bottom: 25px;
+
+    img {
+      height: 250px;
+      width: 100%;
+    }
+  }
+
+  &__title {
+    font-size: 20px;
+    margin-bottom: 14px;
+    overflow-x: hidden;
+  }
+
+  &__text {
+    font-size: 16px;
+    margin-bottom: 14px;
+  }
+
+  &__link {
+    font-size: 16px;
+    font-style: italic;
+    transition: all .1s ease-in-out;
+
+    &:hover {
+      color: red;
+
+    }
+  }
+
+
+
+}
+
+.container {
+  width: 80%;
+  margin: 0 auto;
+  padding: 20px 10px;
+}
