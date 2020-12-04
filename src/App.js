@@ -7,7 +7,8 @@ function App() {
     const [state, setState] = React.useState({
         items: [],
         isLoading: false,
-        enableAutoRefresh: false
+        enableAutoRefresh: false,
+        minComments: 0
     });
 
     React.useEffect( () => {
@@ -28,29 +29,36 @@ function App() {
             }))
     }
 
-    const updateAutoRefresh = () => {
-        if (state.enableAutoRefresh) {
-            setState({...state, enableAutoRefresh: false});
-        } else {
-            setState({...state, enableAutoRefresh: true});
-
-        }
+    const refreshPage = () => {
+        getItems();
     }
 
-    const { items, isLoading, enableAutoRefresh } = state;
+    const { items, isLoading, minComments } = state;
 
-    const itemsSortedByComments = items && items.sort((a, b) => {
-        return (b.data.num_comments - a.data.num_comments)
-    })
+    const itemsSortedByComments = items &&
+        items.filter(item => item.data.num_comments >= minComments)
+            .sort((a, b) => {
+                return (b.data.num_comments - a.data.num_comments)
+            })
+
+    const updateMinComments = (event) => {
+        setState({
+            ...state,
+            minComments: Number(event.target.value)
+        })
+    }
 
     return <div className="gallery">
         <div className="container">
             <h1 className="gallery__heading">Top commented.</h1>
-            <button onClick={updateAutoRefresh} className="gallery__button" type="button">
-                {enableAutoRefresh ? 'Stop' : 'Start'} auto-refresh
-            </button>
+            <div>
+                <button onClick={refreshPage} className="gallery__button" type="button">Reload items</button>
+            </div>
+            <p>Current filter: {minComments}</p>
+            <input type="range" onChange={updateMinComments} value={minComments} min={0} max={500} className="gallery__input"/>
             <div className="gallery__container">
-                {isLoading ? <p>...Loading</p> : itemsSortedByComments.map(item => <Item key={item.data.id} data={item.data}/>)}
+                {isLoading ? <p>...Loading</p> : itemsSortedByComments.length > 0 ? itemsSortedByComments.map(item => <Item key={item.data.id} data={item.data}/>)
+                : <p>No result found matching your criteria</p>}
             </div>
         </div>
     </div>
